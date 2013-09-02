@@ -4,3 +4,5 @@
 __author__ = 'Pierre-Samuel Le Stang'
 __email__ = 'ps@lestang.fr'
 __version__ = '0.1.0'
+
+from OCAPy import OCAPy
