@@ -112,4 +112,4 @@ except Exception as e:
 
 
 ### License
-OCAPy is licensed under GPLv3
+OCAPy is licensed under the term of the General Public Licence v3
