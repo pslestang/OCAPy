@@ -15,13 +15,12 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 readme = open('README.md').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='OCAPy',
     version='0.1.0',
     description='Python client implementing OVH restful API consumption',
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
     author='Pierre-Samuel Le Stang',
     author_email='ps@lestang.fr',
     url='https://github.com/pslestang/OCAPy',
