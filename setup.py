@@ -14,13 +14,13 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     sys.exit()
 
-readme = open('README.rst').read()
+readme = open('README.md').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='OCAPy',
     version='0.1.0',
-    description='Python implementation of an OVH client to use with their restful API',
+    description='Python client implementing OVH restful API consumption',
     long_description=readme + '\n\n' + history,
     author='Pierre-Samuel Le Stang',
     author_email='ps@lestang.fr',
