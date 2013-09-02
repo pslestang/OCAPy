@@ -1,7 +1,9 @@
 OCAPy
 =====
 
-OCAPy is a python client implementation to use with OVH restful API
+OVH Client Api (in Python)
+
+OCAPy is a python client implementing OVH restful API consumption
 
 ## Quick usage overview
 
@@ -24,22 +26,38 @@ OCAPy is a python client implementation to use with OVH restful API
     # Want to get a specific ressource?
     print ocapy.ip('213.186.33.99/32').get()
     
-    # OK but I also want to play with POST and PUT
+    # OK but I also want to play with POST and PUT!
     print ocapy.me.ovhAccount('FR').creditOrder.post(data={'amount':'1000'})
     print ocapy.xdsl('xdsl-xxxx-1').put(data={'description':'My XDSL description'})
     
-    # And what about DELETE
+    # And what's about DELETE?
     print ocapy.sms('sms-xxxx-1').user('ocapy').delete()
     
 ```
 
-## Basics
+## What you need to know
+### Basics
 1. OVH API is available [here](https://api.ovh.com/console/)
-
 2. To get your credentials follow [this tutorial](http://www.ovh.com/fr/g934.premiers-pas-avec-l-api)
+3. The code has been tested with python 2.7
 
-## Requirements
-You need the [famous requests](http://docs.python-requests.org/en/latest/) python library
+### Requirements
+1. You only need the famous [requests](http://docs.python-requests.org/en/latest/) python library, other libs should be available with your python installation.
 
-## License
+### Installation
+1. Download the archive
+2. Unzip and go into the directory
+3. run ```python setup.py install```
+4. Play with it!
+
+In other words under Linux:
+
+```bash
+$ wget https://github.com/pslestang/OCAPy/archive/master.zip
+$ unzip master.zip
+$ cd OCAPy-master/
+$ sudo python setup.py install
+```
+
+### License
 OCAPy is licensed under GPLv3
