@@ -27,7 +27,7 @@ OCAPy is a python client implementing OVH restful API consumption
     print request['city']
 
     # Want to get a specific ressource?
-    # GET https://api.ovh.com/1.0/ip/213.186.33.99%2F/
+    # GET https://api.ovh.com/1.0/ip/213.186.33.99%2F32/
     print ocapy.ip('213.186.33.99/32').get()
     
     # OK but I also want to play with POST and PUT!
