@@ -8,7 +8,7 @@ OCAPy is a python client implementing OVH restful API consumption
 ## Disclaimer ##
 **OVH is IN NO WAY involved in the development of this library**, in case of bug please use the issues tool provided by Github
 
-## Quick usage overview
+## Usage overview
 
 ```python
     # Instantiate OCAPy class
