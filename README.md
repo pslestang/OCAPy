@@ -3,7 +3,7 @@ OCAPy
 
 OVH Client Api (in Python)
 
-OCAPy is a python client implementing [OVH restful API](ttps://api.ovh.com/console/) consumption
+OCAPy is a python client implementing [OVH restful API](https://api.ovh.com/console/) consumption
 
 ## Disclaimer ##
 **OVH is in no way involved in the development of this library**, in case of bug please use the issues tracker provided by Github
