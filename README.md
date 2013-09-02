@@ -68,66 +68,48 @@ sudo python setup.py install
 ```
 
 ### API Responses
-- The API responses are **JSON formatted**
+- The API responses are **decoded JSON string**
 - In case of **NULL** response, **None** is returned
 - In case of **HTTP error** which is also an API error, an exception is raised
 
 ```python
-from OCAPy import OCAPy
-
-ocapy = OCAPy(
-        base_url='https://api.ovh.com/1.0',
-        app_key='appkey',
-        app_secret='secretapp',
-        consumer_key='consumerapp'
-    )
-
-print "1/ A successfull request return a JSON formatted structure callable using a dict"
-me=ocapy.me()
+# A successfull request return a decoded JSON string
+me=ocapy.me.get()
 print "My name is: %s" % me['name']
+```
+    My name is: Le Stang
 
+```python
+# Ex: Adding ocapy user return a NULL response so None in python
+print ocapy.sms('sms-xxxx-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
+```    
+    None
 
-print "\n2/ Adding ocapy user should return a NULL response so None in python"
-print ocapy.sms('sms-xxxx-1').users.post(data={'login':'ocapy',
-                                                 'password':'plopplop'})
-
-print "\n3/ Adding ocapy user one more time, should raise an exception:"
+```python    
+# Ex: Adding ocapy user one more time raise an exception:"
 try:
-    ocapy.sms('sms-xxxx-1').users.post(data={'login':'ocapy',
-                                               'password':'plopplop'})
+    ocapy.sms('sms-xxxx-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
 except Exception as e:
     print "Exception raised: %s" % e
+```
+    Exception raised: POST https://api.ovh.com/1.0/sms/sms-xxxx-1/users [409]: This login exists already for that account
 
-print "\n4/ Deleting ocapy user should return NULL response, so None in python"
+```python
+# Ex: Deleting ocapy user return a NULL response, so None in python"
 print ocapy.sms('sms-xxxx-1').users('ocapy').delete()
+```
+    None
 
-print "\n5/ Calling an invalid resource, should raise an exception:"
+```python
+# Calling an invalid resource, raise an exception:"
 try:
     ocapy.me.unknownmethod.get()
 except Exception as e:
-    print "Catch %s" % e
+    print "Exception raised %s" % e
 
 ```
+     Exception raised GET https://api.ovh.com/1.0/me/unknownmethod [404]: Got an invalid (or empty) URL
 
-
-Execution of code gives:
-
-```
-1/ A successfull request return a JSON formatted structure callable using a dict
-My name is: Le Stang
-
-2/ Adding ocapy user should return a NULL response so None in python
-None
-
-3/ Adding ocapy user one more time, should raise an exception:
-Exception raised: POST https://api.ovh.com/1.0/sms/sms-xxxx-1/users [409]: This login exists already for that account
-
-4/ Deleting ocapy user should return NULL response, so None in python
-None
-
-5/ Calling an invalid resource, should raise an exception:
-Catch GET https://api.ovh.com/1.0/me/unknownmethod [404]: Got an invalid (or empty) URL
-```
 
 ### License
 OCAPy is licensed under GPLv3
