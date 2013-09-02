@@ -20,7 +20,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 setup(
     name='OCAPy',
     version='0.1.0',
-    description='Python Boilerplate contains all the boilerplate you need to create a Python package.")? Python implementation of an OVH client to use with their restful API',
+    description='Python implementation of an OVH client to use with their restful API',
     long_description=readme + '\n\n' + history,
     author='Pierre-Samuel Le Stang',
     author_email='ps@lestang.fr',
@@ -32,19 +32,15 @@ setup(
     include_package_data=True,
     install_requires=[
     ],
-    license="BSD",
+    license="GPLv3",
     zip_safe=False,
     keywords='OCAPy',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: GPLv3',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
     ],
     test_suite='tests',
 )
