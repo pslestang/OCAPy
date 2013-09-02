@@ -11,6 +11,9 @@ OCAPy is a python client implementing [OVH restful API](https://api.ovh.com/cons
 ## Usage overview
 
 ```python
+    # Import the main class
+    from OCAPy import OCAPy
+    
     # Instantiate OCAPy class
     ocapy=OCAPy(
         base_url='https://api.ovh.com/1.0/',
@@ -112,4 +115,4 @@ except Exception as e:
 
 
 ### License
-OCAPy is licensed under the term of the General Public Licence v3
+OCAPy is licensed under the term of the General Public License v3
