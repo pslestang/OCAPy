@@ -69,8 +69,8 @@ sudo python setup.py install
 
 ### API Responses
 - The API responses are **JSON formatted**
-- In case of NULL response, None is returned
-- In case of error (HTTP error, which is also an API error), an exception is returned
+- In case of **NULL** response, **None** is returned
+- In case of **HTTP error** which is also an API error, an exception is raised
 
 ```python
 from OCAPy import OCAPy
@@ -109,6 +109,8 @@ except Exception as e:
 
 ```
 
+
+Execution of code gives:
 
 ```
 1/ A successfull request return a JSON formatted structure callable using a dict
