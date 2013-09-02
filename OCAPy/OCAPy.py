@@ -154,7 +154,7 @@ class Resource(object):
                             (type.upper(), response.url, response.status_code,
                              response.json()['message']))
         else:
-            return response
+            return response.json()
 
 
     def get(self, **kwargs):
@@ -173,7 +173,6 @@ class Resource(object):
         logging.debug("DELETE request")
         return self._request(type='DELETE', kwargs=kwargs)
 
-# Main API class
 class API(object):
     def __init__(self, auth=None, base_url=None, app_key=None, app_secret=None,
                 consumer_key=None):
@@ -194,28 +193,3 @@ class OCAPy(API):
 
     def get_schema(self):
         pass
-
-
-if __name__ == '__main__':
-
-    api=OCAPy(
-        base_url='https://api.ovh.com/1.0/',
-        app_key='application key',
-        app_secret='application secret',
-        consumer_key='consumer key'
-    )
-    
-    # Get request
-    request = api.price.cdn.anycast.model("classic").get()
-    request.text
-    request.json()
-    # ... refer to python requests module for further details
-
-    # Post request
-    print api.me.ovhAccount('FR').creditOrder.post(data={'amount':'1000'}).json()
-    # other exemples request
-    print api.order.cdn().text
-    print api.order.domain.zone().json()
-    print api.xdsl('xdsl-xxxx-1').get().json()
-    print api.xdsl('xdsl-xxxx-1').put(data={'description':'My XDSL description'}).json()
-
