@@ -20,25 +20,25 @@ OCAPy is a python client implementing OVH restful API consumption
     )
 
     # And play with the API
-    # A GET request: GET https://api.ovh.com/1.0/me/
+    # A GET request: GET https://api.ovh.com/1.0/me
     request=ocapy.me.get()
 
     # print my city
     print request['city']
 
     # Want to get a specific ressource?
-    # GET https://api.ovh.com/1.0/ip/213.186.33.99%2F32/
+    # GET https://api.ovh.com/1.0/ip/213.186.33.99%2F32
     print ocapy.ip('213.186.33.99/32').get()
     
     # OK but I also want to play with POST and PUT!
-    # POST https://api.ovh.com/1.0/me/ovhAccount/FR/creditOrder/
+    # POST https://api.ovh.com/1.0/me/ovhAccount/FR/creditOrder
     print ocapy.me.ovhAccount('FR').creditOrder.post(data={'amount':'1000'})
 
-    # PUT https://api.ovh.com/1.0/xdsl/xdsl-xxxx-1/
+    # PUT https://api.ovh.com/1.0/xdsl/xdsl-xxxx-1
     print ocapy.xdsl('xdsl-xxxx-1').put(data={'description':'My XDSL description'})
     
     # And what's about DELETE?
-    # DELETE https://api.ovh.com/1.0/sms/user/ocapy/
+    # DELETE https://api.ovh.com/1.0/sms/user/ocapy
     print ocapy.sms('sms-xxxx-1').user('ocapy').delete()
     
 ```
