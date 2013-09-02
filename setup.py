@@ -30,6 +30,7 @@ setup(
     package_dir={'OCAPy': 'OCAPy'},
     include_package_data=True,
     install_requires=[
+        'requests',
     ],
     license="GPLv3",
     zip_safe=False,
