@@ -16,11 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# OCAPY Exceptions are raised on HTTP requests
-# we let the request instance be passed to the __init__
-# to help in further investigation
 class OCAPyException(Exception):
-    """ OCAPy exception base class """
+    """Defines the exception base class for OCAPy classes"""
+
     def __init__(self, message, request=None):
         Exception.__init__(self, message)
         self.request=request

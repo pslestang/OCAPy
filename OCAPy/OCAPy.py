@@ -37,30 +37,30 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 # Authentication class which inherit from requests.auth.AuthBase
 # requests module usage only
 class OVHAuth(AuthBase):
-    """ OVH's API authentication schema """
+    """OVH's API authentication schema"""
 
     def __init__(self, consumer_key=None, app_secret=None, app_key=None,
                  base_url=None, time_path='auth/time', url_path='/',
                  request_type='GET'):
-        self.consumer_key=consumer_key
-        self.app_key=app_key
-        self.app_secret=app_secret
-        self.base_url=base_url
-        self.url_path=url_path
-        self.request_type=request_type
-        self.time_path=time_path
-        self.time_url= '%s/%s' % (str(self.base_url).rstrip('/'),
-                                  str(self.time_path).lstrip('/'))
-        self.url='%s/%s' % (str(self.base_url).rstrip('/'),
-                            str(self.url_path).lstrip('/'))
+        self.consumer_key = consumer_key
+        self.app_key = app_key
+        self.app_secret = app_secret
+        self.base_url = base_url
+        self.url_path = url_path
+        self.request_type = request_type
+        self.time_path = time_path
+        self.time_url = '%s/%s' % (str(self.base_url).rstrip('/'),
+                                   str(self.time_path).lstrip('/'))
+        self.url = '%s/%s' % (str(self.base_url).rstrip('/'),
+                              str(self.url_path).lstrip('/'))
 
     # Compute the request signature
     # Refer to http://www.ovh.com/fr/g934.premiers-pas-avec-l-api 
     def signature(self, timestamp=None):
         if timestamp is None:
-            timestamp=self.now()
+            timestamp = self.now()
 
-        sha1=hashlib.sha1()
+        sha1 = hashlib.sha1()
         sha1.update('+'.join([self.app_secret, self.consumer_key,
                               str(self.request_type).upper(), self.url, "", timestamp]))
         return '$1$'+sha1.hexdigest()
@@ -88,24 +88,26 @@ class OVHAuth(AuthBase):
     def __call__(self, r):
 
         timestamp = self.now()
-        r.headers['X-Ovh-Consumer']=self.consumer_key
-        r.headers['X-Ovh-Application']=self.app_key
-        r.headers['X-Ovh-Signature']=self.signature(timestamp=timestamp)
-        r.headers['X-Ovh-Timestamp']=str(timestamp)
+        r.headers['X-Ovh-Consumer'] = self.consumer_key
+        r.headers['X-Ovh-Application'] = self.app_key
+        r.headers['X-Ovh-Signature'] = self.signature(timestamp=timestamp)
+        r.headers['X-Ovh-Timestamp'] = str(timestamp)
 
         return r
 
 
 # Resource class described by:
-    # 1. name: the name of the resource (ex: server)
-    # 2. path: the full path to access to the resource (ex: https://api.ovh.com/1.0/dedicated/server)
-    # 3. api: the api object related to the resource
-    # 4. callable: the class to call that permit method chaining ( api.me.ovhAccount('FR').creditOrder )
+# 1. name: the name of the resource (ex: server)
+# 2. path: the full path to access to the resource (ex: https://api.ovh.com/1.0/dedicated/server)
+# 3. api: the api object related to the resource
+# 4. callable: the class to call that permit method chaining ( api.me.ovhAccount('FR').creditOrder )
 class Resource(object):
+    """"""
+
     def __init__(self, name=None, path=None, api=None, callable=None):
         self.name = name
-        self.path=path
-        self.api=api
+        self.path = path
+        self.api = api
         self.callable = callable
 
     def __call__(self, *args, **kwargs):
@@ -119,7 +121,7 @@ class Resource(object):
 
     def __getattr__(self, name):
         logging.debug("getattr called for attribute %s" % name)
-        path='%s/%s' % (self.path.rstrip('/'), name)
+        path = '%s/%s' % (self.path.rstrip('/'), name)
         return self.callable(name=name,
                              api=self.api,
                              path=path,
@@ -130,15 +132,15 @@ class Resource(object):
     # fail (return code != requests.codes.ok )
     def _request(self, type='GET', kwargs=None):
 
-        url='%s/%s' %(self.api.base_url.rstrip('/'), self.path.lstrip('/'))
+        url = '%s/%s' %(self.api.base_url.rstrip('/'), self.path.lstrip('/'))
         # method: get/post/put/delete
-        method=str(type).lower()
+        method = str(type).lower()
 
         logging.debug("%s %s" % (method, url))
         logging.debug("path is %s" % self.path)
 
         # call requests
-        response=getattr(requests, method)(url,
+        response = getattr(requests, method)(url,
                                            auth=self.api.auth(
                                                url_path=self.path,
                                                consumer_key=self.api.consumer_key,
@@ -151,7 +153,7 @@ class Resource(object):
 
         # check the response, and raise the exception in case of non ok HTTP code
         if response.status_code != requests.codes.ok:
-            message="%s %s [%s]: %s" % (str(type).upper(),
+            message = "%s %s [%s]: %s" % (str(type).upper(),
                                         response.url,
                                         response.status_code,
                                         response.json()['message']
@@ -160,7 +162,6 @@ class Resource(object):
                              
         else:
             return response.json()
-
 
     def get(self, **kwargs):
         logging.debug("GET request")
@@ -178,20 +179,28 @@ class Resource(object):
         logging.debug("DELETE request")
         return self._request(type='DELETE', kwargs=kwargs)
 
+
 class API(object):
+    """"""
+
     def __init__(self, auth=None, base_url=None, app_key=None, app_secret=None,
                 consumer_key=None):
-        self.base_url=base_url
-        self.auth=auth
-        self.app_key=app_key
-        self.app_secret=app_secret
-        self.consumer_key=consumer_key
+        self.base_url = base_url
+        self.auth = auth
+        self.app_key = app_key
+        self.app_secret = app_secret
+        self.consumer_key = consumer_key
 
     # Dynamic building of resource
     def __getattr__(self, attribute):
         path='/%s' % attribute
         return Resource(name=attribute, api=self, path=path, callable=Resource)
 
+
 class OCAPy(API):
+    """"""
+
     def __init__(self, **kwargs):
         super(OCAPy, self).__init__(auth=OVHAuth, **kwargs)
+
+# vim:set shiftwidth=4 tabstop=4 softtabstop=4 encoding=utf-8 expandtab textwidth=79
