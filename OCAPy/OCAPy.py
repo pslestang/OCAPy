@@ -18,13 +18,14 @@
 
 
 import logging
-import base64
 import hashlib
 import time
 import urllib
 
 import requests
 from requests.auth import AuthBase
+
+from errors import OCAPyException
 
 # Current logger
 logging.basicConfig(level=logging.INFO)
@@ -33,7 +34,7 @@ logging.basicConfig(level=logging.INFO)
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
-# Authentication class which inherit from requests.aut.AuthBase
+# Authentication class which inherit from requests.auth.AuthBase
 # requests module usage only
 class OVHAuth(AuthBase):
     """ OVH's API authentication schema """
@@ -56,7 +57,6 @@ class OVHAuth(AuthBase):
     # Compute the request signature
     # Refer to http://www.ovh.com/fr/g934.premiers-pas-avec-l-api 
     def signature(self, timestamp=None):
-
         if timestamp is None:
             timestamp=self.now()
 
@@ -70,7 +70,8 @@ class OVHAuth(AuthBase):
     def server_time(self):
         req = requests.get(self.time_url)
         if req.status_code != requests.codes.ok:
-            raise(Exception("Time request error %s" % req.text))
+            raise OCAPyException("Time request error: %s" % req.json()['message'], request=req)
+
         return int(requests.get(self.time_url).text)
 
     # Return the time difference between OVH and local time
@@ -150,9 +151,13 @@ class Resource(object):
 
         # check the response, and raise the exception in case of non ok HTTP code
         if response.status_code != requests.codes.ok:
-            raise Exception("%s %s [%s]: %s" %
-                            (type.upper(), response.url, response.status_code,
-                             response.json()['message']))
+            message="%s %s [%s]: %s" % (str(type).upper(),
+                                        response.url,
+                                        response.status_code,
+                                        response.json()['message']
+                                       )
+            raise OCAPyException(message, request=response)
+                             
         else:
             return response.json()
 
@@ -190,6 +195,3 @@ class API(object):
 class OCAPy(API):
     def __init__(self, **kwargs):
         super(OCAPy, self).__init__(auth=OVHAuth, **kwargs)
-
-    def get_schema(self):
-        pass
