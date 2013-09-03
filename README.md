@@ -53,7 +53,7 @@ OCAPy is a python client implementing [OVH restful API](https://api.ovh.com/cons
 3. The code has been tested with python 2.7
 
 ### Requirements
-1. You only need the famous [requests](http://docs.python-requests.org/en/latest/) python library, other libs should be available with your python installation.
+1. You only need the famous [requests](http://docs.python-requests.org/en/latest/) python library, other libs should be available within your python installation.
 
 ### Installation
 1. Download the archive
