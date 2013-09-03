@@ -106,12 +106,12 @@ print ocapy.sms('sms-xxxx-1').users('ocapy').delete()
 ```python
 # Calling an invalid resource, raise an exception:"
 try:
-    ocapy.me.unknownmethod.get()
+    ocapy.me.invalidresource.get()
 except Exception as e:
     print "Exception raised %s" % e
 
 ```
-     Exception raised GET https://api.ovh.com/1.0/me/unknownmethod [404]: Got an invalid (or empty) URL
+     Exception raised GET https://api.ovh.com/1.0/me/invalidresource [404]: Got an invalid (or empty) URL
 
 
 ### License
