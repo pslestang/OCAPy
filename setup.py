@@ -36,7 +36,7 @@ setup(
     zip_safe=False,
     keywords='OCAPy',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 2 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GPLv3',
         'Natural Language :: English',
