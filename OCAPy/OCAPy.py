@@ -68,9 +68,9 @@ class OVHAuth(AuthBase):
     # time is needed to sign the requests
     # Use the URL given by OVH to retrieve time
     def server_time(self):
-        req = requests.get(self.time_url)
-        if req.status_code != requests.codes.ok:
-            raise OCAPyException("Time request error: %s" % req.json()['message'], request=req)
+        request = requests.get(self.time_url)
+        if request.status_code != requests.codes.ok:
+            raise OCAPyException("Time request error: %s" % request.json()['message'], request=request)
 
         return int(requests.get(self.time_url).text)
 
