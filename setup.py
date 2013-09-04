@@ -30,7 +30,7 @@ setup(
     package_dir={'OCAPy': 'OCAPy'},
     include_package_data=True,
     install_requires=[
-        'requests',
+        'requests>=1.0.0',
     ],
     license="GPLv3",
     zip_safe=False,
@@ -40,7 +40,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GPLv3',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 2.7.5',
     ],
     test_suite='tests',
 )
