@@ -1,6 +1,5 @@
-v0.1.0
-------
+## v0.1.0 ##
 
-<em>Release date: September 2, 2013</em>
+**Release date: September 2, 2013**
 
 * First OCAPy release.
