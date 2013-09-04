@@ -199,7 +199,6 @@ class API(object):
 
 class OCAPy(API):
     """"""
-
     def __init__(self, **kwargs):
         super(OCAPy, self).__init__(auth=OVHAuth, **kwargs)
 

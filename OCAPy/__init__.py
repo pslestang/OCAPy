@@ -6,3 +6,4 @@ __email__ = 'ps@lestang.fr'
 __version__ = '0.1.0'
 
 from OCAPy import OCAPy
+from schema import Schemas, Schema
