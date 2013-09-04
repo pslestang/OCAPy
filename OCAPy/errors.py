@@ -23,5 +23,9 @@ class OCAPyException(Exception):
         Exception.__init__(self, message)
         self.request=request
 
+class OCAPyConfigException(Exception):
+    """Defines the exception class for OCAPy Config classes"""
+    pass
+
 # vim:set shiftwidth=4 tabstop=4 softtabstop=4 encoding=utf-8 expandtab textwidth=79
 
