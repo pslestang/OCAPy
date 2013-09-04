@@ -62,7 +62,7 @@ class Config(object):
 
             if section == 'ocapy':
                 self.ocapy = OcapyConfig(parser=self.parser, **params)
-            elif str(section).startswith('Profile-'):
+            elif str(section).startswith('profile-'):
                 self.add_profile(parser=self.parser, **params)
 
     def save(self):
