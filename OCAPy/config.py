@@ -101,6 +101,7 @@ class OcapyConfig(object):
         self.parser = parser
 
     def save(self):
+        self.parser.set(self.section, 'base_url', self.base_url)
         self.parser.set(self.section, 'default_profile',
                         str(self.default_profile))
 
