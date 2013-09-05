@@ -7,3 +7,4 @@ __version__ = '0.1.0'
 
 from OCAPy import OCAPy
 from schema import Schemas, Schema
+from config import Config
