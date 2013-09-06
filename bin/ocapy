@@ -1,0 +1,109 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Copyright 2013 Pierre-Samuel Le Stang (ps@lestang.fr)
+#  
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+
+import string
+import argparse
+import logging
+
+logging.basicConfig(level=logging.INFO, format="%(message)s")
+logger = logging.getLogger()
+
+from OCAPy import OCAPy
+from OCAPy import Config
+from OCAPy import UserInput
+
+parser = argparse.ArgumentParser(prog='ocapy')
+parser.add_argument('-c', '--config', action='store_true', help='Configure'
+                    ' OCAPy and manage profiles authentication')
+parser.add_argument('-s', '--shell', action='store_true', help='Start an' 
+                    ' interactive shell')
+parser.add_argument('-p', '--profile', help='Authentication profile to use')
+#parser.add_argument('-n', '--no-color', action='store_true', help='Disable'
+#                    ' color, default is to enable unless colorama library is'
+#                    ' missing ')
+args=parser.parse_args()
+
+if args.config:
+    logger.info("Loading configuration...")
+    config = Config()
+
+    load_profile = None
+    add_profile = False
+    
+    if not len(config.profiles):
+        logger.info("No profile found, adding one...")
+        add_profile = True
+    else:
+        answer = UserInput(question='Do you want to add, delete or list profiles?',
+                           choices=['add', 'delete', 'list'], default='list').process()
+        names = [ profile.name for profile in config.profiles ]
+        if answer == 'list':
+            answer = UserInput(question='Choose the profile to detail:', choices=names,
+                           default=names[0]).process()
+
+            profile = config.profile(answer)
+            if profile is not None:
+                name = 'Name'
+                base_url = 'Base URL'
+                app_key = 'Application key'
+                app_secret = 'Application secret'
+                consumer_key = 'Consumer key'
+
+                maxsize = 0
+                for size in [len(name), len(base_url), len(app_key),
+                             len(app_secret), len(consumer_key)]:
+                    if size > maxsize:
+                        maxsize = size
+
+                logger.info('%s: %s' % (string.rjust(name, maxsize),
+                                       profile.name))
+                logger.info('%s: %s' % (string.rjust(base_url, maxsize),
+                                       profile.base_url))
+                logger.info('%s: %s' % (string.rjust(app_key, maxsize), profile.app_key))
+                logger.info('%s: %s' % (string.rjust(app_secret, maxsize),
+                                       profile.app_secret))
+                logger.info('%s: %s' % (string.rjust(consumer_key, maxsize),
+                                       profile.consumer_key))
+            else:
+                logger.info('Profile not found!')
+        elif answer == 'add':
+            add_profile = True
+        else:
+            answer = UserInput(question='Choose the profile to delete:',
+                               choices=names, default=names[0]).process()
+            config.delete_profile(answer)
+            config.save()
+            logger.info('Profile %s has been deleted' % answer)
+
+    if add_profile:
+        app_key = UserInput(question='Enter your application key').process()
+        app_secret = UserInput(question='Enter your application secret').process()
+        consumer_key = UserInput(question='Enter your consumer key').process()
+        base_url = UserInput(question='Enter the API base URL').process()
+        name = UserInput(question='Give a name to your profile').process()
+        config.add_profile(app_key=app_key, app_secret=app_secret,
+                           consumer_key=consumer_key, name=name, base_url=base_url)
+        config.save()
+        logger.info('Configuration saved')
+        
+elif args.shell:
+    print "shell"
+else:
+    parser.print_help()
+
+
