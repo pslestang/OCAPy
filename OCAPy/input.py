@@ -47,7 +47,7 @@ class UserInput(object):
                     choice = '%s%s*%s' % (Fore.GREEN, choice,
                                          Fore.WHITE)
                 else:
-                    choice = '%s' % str(choice).upper()
+                    choice = '%s*' % str(choice).upper()
 
 
             choice_string += choice
