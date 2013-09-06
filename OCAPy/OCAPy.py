@@ -25,6 +25,7 @@ import urllib
 import requests
 from requests.auth import AuthBase
 
+from config import Config
 from errors import OCAPyException
 
 # Current logger
