@@ -49,8 +49,8 @@ if args.config:
         logger.info("No profile found, adding one...")
         add_profile = True
     else:
-        answer = UserInput(question='Do you want to add, delete or list profiles?',
-                           choices=['add', 'delete', 'list'], default='list').process()
+        answer = UserInput(question='Do you want to add, delete, list or test a profile?',
+                           choices=['add', 'delete', 'list', 'test'], default='list').process()
         names = [ profile.name for profile in config.profiles ]
         if answer == 'list':
             answer = UserInput(question='Choose the profile to detail:', choices=names,
@@ -83,12 +83,23 @@ if args.config:
                 logger.info('Profile not found!')
         elif answer == 'add':
             add_profile = True
-        else:
+        elif answer == 'test':
+            answer = UserInput(question='Choose the profile to load:', choices=names,
+                           default=names[0]).process()
+            profile = config.profile(answer)
+            if profile.is_valid():
+                logger.info('Your profile %s is valid' % profile.name)
+            else:
+                logger.error('Your profile %s is not valid' % profile.name)
+        elif answer == 'delete':
             answer = UserInput(question='Choose the profile to delete:',
                                choices=names, default=names[0]).process()
             config.delete_profile(answer)
             config.save()
             logger.info('Profile %s has been deleted' % answer)
+        else:
+            logger.warning('Answer "%s" is not implemented' % answer)
+
 
     if add_profile:
         app_key = UserInput(question='Enter your application key').process()
