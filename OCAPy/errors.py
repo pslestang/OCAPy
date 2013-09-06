@@ -23,11 +23,17 @@ class OCAPyException(Exception):
         Exception.__init__(self, message)
         self.request=request
 
-class OCAPyConfigException(Exception):
+class OCAPyRequestException(OCAPyException):
+    """Defines the exception for requests"""
+    def __init__(self, message, request=None):
+        OCAPyException.__init__(self, message)
+        self.request=request
+
+class OCAPyConfigException(OCAPyException):
     """Defines the exception class for OCAPy Config classes"""
     pass
 
-class OCAPyInputException(Exception):
+class OCAPyInputException(OCAPyException):
     """Defines the exception class for OCAPy Config classes"""
     pass
 
