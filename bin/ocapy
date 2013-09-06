@@ -113,7 +113,11 @@ if args.config:
         logger.info('Configuration saved')
         
 elif args.shell:
-    print "shell"
+    logger.info('Loading default profile...')
+    config = Config()
+    ocapy = OCAPy(ocapy_profile='default')
+    # Start the shell...
+    print ocapy.me.get()
 else:
     parser.print_help()
 

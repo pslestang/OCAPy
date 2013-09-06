@@ -204,7 +204,7 @@ class OCAPy(API):
         if ocapy_profile is not None:
             config=Config()
             if ocapy_profile == 'default':
-                profile = config.profile(config.ocapy.default)
+                profile = config.profile(config.ocapy.profile)
             else:
                 profile = config.profile(ocapy_profile)
                 
