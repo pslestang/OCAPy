@@ -80,11 +80,12 @@ class Config(object):
             profile.delete()
 
     def profile(self, name):
-
         profile = None
         for profile in self.profiles:
             if profile.name == name:
                 break
+            else:
+                profile = None
 
         return profile
 

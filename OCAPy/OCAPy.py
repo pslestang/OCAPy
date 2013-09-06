@@ -200,7 +200,22 @@ class API(object):
 
 class OCAPy(API):
     """"""
-    def __init__(self, **kwargs):
+    def __init__(self, ocapy_profile=None, **kwargs):
+        if ocapy_profile is not None:
+            config=Config()
+            if ocapy_profile == 'default':
+                profile = config.profile(config.ocapy.default)
+            else:
+                profile = config.profile(ocapy_profile)
+                
+            if profile is None:
+                raise OCAPyException('OCAPY profile %s is unknown' % ocapy_profile)
+            else:
+                kwargs['base_url'] = profile.base_url
+                kwargs['app_key'] = profile.app_key
+                kwargs['app_secret'] = profile.app_secret
+                kwargs['consumer_key'] = profile.consumer_key
+
         super(OCAPy, self).__init__(auth=OVHAuth, **kwargs)
 
 # vim:set shiftwidth=4 tabstop=4 softtabstop=4 encoding=utf-8 expandtab textwidth=79
