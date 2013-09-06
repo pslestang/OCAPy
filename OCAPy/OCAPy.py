@@ -26,7 +26,7 @@ import requests
 from requests.auth import AuthBase
 
 from config import Config
-from errors import OCAPyException
+from errors import OCAPyException, OCAPyRequestException
 
 # Current logger
 logging.basicConfig(level=logging.INFO)
@@ -71,7 +71,7 @@ class OVHAuth(AuthBase):
     def server_time(self):
         request = requests.get(self.time_url)
         if request.status_code != requests.codes.ok:
-            raise OCAPyException("Time request error: %s" % request.json()['message'], request=request)
+            raise OCAPyRequestException("Time request error: %s" % request.json()['message'], request=request)
 
         return int(requests.get(self.time_url).text)
 
@@ -159,7 +159,7 @@ class Resource(object):
                                         response.status_code,
                                         response.json()['message']
                                        )
-            raise OCAPyException(message, request=response)
+            raise OCAPyRequestException(message, request=response)
                              
         else:
             return response.json()
