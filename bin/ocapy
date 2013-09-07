@@ -58,27 +58,7 @@ if args.config:
 
             profile = config.profile(answer)
             if profile is not None:
-                name = 'Name'
-                base_url = 'Base URL'
-                app_key = 'Application key'
-                app_secret = 'Application secret'
-                consumer_key = 'Consumer key'
-
-                maxsize = 0
-                for size in [len(name), len(base_url), len(app_key),
-                             len(app_secret), len(consumer_key)]:
-                    if size > maxsize:
-                        maxsize = size
-
-                logger.info('%s: %s' % (string.rjust(name, maxsize),
-                                       profile.name))
-                logger.info('%s: %s' % (string.rjust(base_url, maxsize),
-                                       profile.base_url))
-                logger.info('%s: %s' % (string.rjust(app_key, maxsize), profile.app_key))
-                logger.info('%s: %s' % (string.rjust(app_secret, maxsize),
-                                       profile.app_secret))
-                logger.info('%s: %s' % (string.rjust(consumer_key, maxsize),
-                                       profile.consumer_key))
+                print profile
             else:
                 logger.info('Profile not found!')
         elif answer == 'add':

@@ -193,8 +193,6 @@ class Profile(object):
         else:
             logging.warning('Profile not valid, removing ....')
             self.delete()
-            # TODO: warning or exception?
-            pass
 
     def delete(self):
         self.parser.remove_section(self.section)
@@ -212,6 +210,27 @@ class Profile(object):
             return False
 
         return True
+
+    def __str__(self):
+        name = 'Name'
+        base_url = 'Base URL'
+        app_key = 'Application key'
+        app_secret = 'Application secret'
+        consumer_key = 'Consumer key'
+
+        maxsize = 0
+        for size in [len(name), len(base_url), len(app_key),
+                     len(app_secret), len(consumer_key)]:
+            if size > maxsize:
+                maxsize = size
+
+        output = '%s: %s' % (string.rjust(name, maxsize), self.name)
+        output += '\n%s: %s' % (string.rjust(base_url, maxsize), self.base_url)
+        output += '\n%s: %s' % (string.rjust(app_key, maxsize), self.app_key)
+        output += '\n%s: %s' % (string.rjust(app_secret, maxsize), self.app_secret)
+        output += '\n%s: %s' % (string.rjust(consumer_key, maxsize), self.consumer_key)
+
+        return output
 
 if __name__ == '__main__':
 
