@@ -50,6 +50,7 @@ class Schema(object):
         self.base_url = base_url
         self.path = path
         self.format = format
+        self.content = None
 
     def load(self):
         url = '%s/%s' % (self.base_url.rstrip('/'), self.path.lstrip('/'))
@@ -59,7 +60,8 @@ class Schema(object):
             raise OCAPyException('Unable to load JSON schema %s: %s' %
                                  (self.path, request.json()['message']), request=request)
 
-        return request.json()
+        self.content = request.json()
+        return self.content
 
 
 if __name__ == '__main__':
