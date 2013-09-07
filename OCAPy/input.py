@@ -24,14 +24,16 @@ try:
 except ImportError:
     pass
 
+def color(status=False):
+    global COLORS
+    COLORS = status
+
 class UserInput(object):
     """"""
-    global COLORS
-    def __init__(self, question=None, choices=None, default=None, colors=COLORS):
+    def __init__(self, question=None, choices=None, default=None):
         self.question = question
         self.choices = choices or []
         self.default = default
-        self.colors = colors
 
     def process(self):
         if not self.question or self.question == '':
@@ -43,11 +45,11 @@ class UserInput(object):
                 choice_string += '/'
 
             if choice == self.default:
-                if self.colors:
+                if COLORS:
                     choice = '%s%s*%s' % (Fore.GREEN, choice,
                                          Fore.WHITE)
                 else:
-                    choice = '%s*' % str(choice).upper()
+                    choice = '%s*' % str(choice)
 
 
             choice_string += choice
@@ -55,7 +57,7 @@ class UserInput(object):
         if choice_string != '':
             choice_string = '[%s]' % choice_string
 
-        if self.colors:
+        if COLORS:
             question = '%s%s%s %s: ' % (Style.BRIGHT, self.question, Style.NORMAL, choice_string)
         else:
             question = '%s %s: ' % (self.question, choice_string)
@@ -67,7 +69,7 @@ class UserInput(object):
                 value = self.default
 
             if len(self.choices) and value not in self.choices:
-                if self.colors:
+                if COLORS:
                     print "%s>>>>> Answer (%s%s%s) is not valid, allowed values: %s" % (Fore.RED, Style.BRIGHT, value, Style.NORMAL, self.choices)
                 else:
                     print ">>>>> Answer (%s) is not valid, allowed values: %s" % (value, self.choices)

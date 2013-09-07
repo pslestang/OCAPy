@@ -25,7 +25,7 @@ logger = logging.getLogger()
 
 from OCAPy import OCAPy
 from OCAPy import Config
-from OCAPy import UserInput
+from OCAPy import UserInput, color
 
 parser = argparse.ArgumentParser(prog='ocapy')
 parser.add_argument('-c', '--config', action='store_true', help='Configure'
@@ -33,10 +33,11 @@ parser.add_argument('-c', '--config', action='store_true', help='Configure'
 parser.add_argument('-s', '--shell', action='store_true', help='Start an' 
                     ' interactive shell')
 parser.add_argument('-p', '--profile', help='Authentication profile to use')
-#parser.add_argument('-n', '--no-color', action='store_true', help='Disable'
-#                    ' color, default is to enable unless colorama library is'
-#                    ' missing ')
+parser.add_argument('-n', '--no-color', action='store_true', help='Disable'
+                    ' color, default is to enable unless colorama library is'
+                    ' missing ')
 args=parser.parse_args()
+color(status=not args.no_color)
 
 if args.config:
     logger.info("Loading configuration...")
@@ -58,7 +59,7 @@ if args.config:
 
             profile = config.profile(answer)
             if profile is not None:
-                print profile
+                logger.info(profile)
             else:
                 logger.info('Profile not found!')
         elif answer == 'add':
