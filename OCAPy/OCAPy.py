@@ -145,6 +145,7 @@ class Resource(object):
         # method: get/post/put/delete
         method = str(type).lower()
 
+        params = None
         if 'params' in kwargs:
             params = urllib.urlencode(kwargs['params'])
 
