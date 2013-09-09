@@ -100,11 +100,9 @@ base_url = https://api.ovh.com/1.0
 To use the authentication parameters from the configuration file, just set the option ```ocapy_profile='profile name'``` when instantiating the OCAPy class.
 You may use the profile called 'default' to load the profile specified in **```[ocapy]```** section.
 
-With the above configuration the 2 following lines are strictly the same:
+With the above configuration the following lines are strictly the same:
 
 ```python
-from OCAPy import OCAPy
-
 # use the profile called full (profile-full)
 ocapy = OCAPy(ocapy_profile='full')
 # use the default profile (value set to full) 
@@ -113,7 +111,7 @@ ocapy = OCAPy(ocapy_profile='default')
 ```
 
 ### ocapy program
-Starting from version **0.2.0** OCAPy is shiped with a program called ```ocapy``` which is for the moment a helpfull program that manage configuration file.
+Starting from version **0.2.0** OCAPy is shipped with a program called ```ocapy``` which is for the moment a helper program that manage configuration file.
 When using it you are able to add, delete, detail an valid a profile authentication.
 
 The 'valid' function tests that a request on https://api.ovh.com/1.0/me is working with an authentication profile 
