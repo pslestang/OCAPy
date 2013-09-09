@@ -53,11 +53,6 @@ class OVHAuth(AuthBase):
         self.params = params
         self.time_path = time_path
         self.time_url = '%s/%s' % (str(self.base_url).rstrip('/'),
-                                   str(self.time_path).lstrip('/'))
-        self.url = '%s/%s' % (str(self.base_url).rstrip('/'),
-                              str(self.url_path).lstrip('/'))
-        if self.params is not None:
-            self.url += '?%s' % self.params
 
     # Compute the request signature
     # Refer to http://www.ovh.com/fr/g934.premiers-pas-avec-l-api 
@@ -65,7 +60,11 @@ class OVHAuth(AuthBase):
         if timestamp is None:
             timestamp = self.now()
 
+<<<<<<< HEAD
         sha1 = hashlib.sha1()
+=======
+        sha1=hashlib.sha1()
+>>>>>>> 0.1.0
         sha1.update('+'.join([self.app_secret,
                               self.consumer_key,
                               str(self.request_type).upper(),
@@ -149,11 +148,22 @@ class Resource(object):
         if 'params' in kwargs:
             params = urllib.urlencode(kwargs['params'])
 
+<<<<<<< HEAD
+=======
+        params = None
+        if 'params' in kwargs:
+            params = urllib.urlencode(kwargs['params'])
+
+>>>>>>> 0.1.0
         full_url = url
         if params is not None:
             full_url += '?%s' % (params)
 
+<<<<<<< HEAD
         logging.debug("%s %s" % (method, full_url))
+=======
+        logging.debug("%s %s" % (method, full_url ))
+>>>>>>> 0.1.0
         logging.debug("path is %s" % self.path)
 
         # call requests

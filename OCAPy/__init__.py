@@ -7,5 +7,8 @@ __version__ = '0.2.0'
 
 from OCAPy import OCAPy
 from schema import Schemas, Schema
+
+from OCAPy import OCAPy
+from schema import Schemas, Schema
 from config import Config
 from input import UserInput, color
