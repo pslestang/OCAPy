@@ -96,7 +96,6 @@ if args.config:
                 config.delete_profile(answer)
                 config.save()
                 logger.info('Profile "%s" has been deleted' % answer)
-                # Reload config
                 config = Config()
             else:
                 logger.warning('"%s" command is not implemented' % answer)
