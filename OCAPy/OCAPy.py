@@ -21,6 +21,7 @@ import logging
 import hashlib
 import time
 import urllib
+import json
 
 import requests
 from requests.auth import AuthBase
@@ -42,18 +43,21 @@ class OVHAuth(AuthBase):
 
     def __init__(self, consumer_key=None, app_secret=None, app_key=None,
                  base_url=None, time_path='auth/time', url_path='/',
-                 request_type='GET'):
+                 request_type='GET', params=None):
         self.consumer_key = consumer_key
         self.app_key = app_key
         self.app_secret = app_secret
         self.base_url = base_url
         self.url_path = url_path
         self.request_type = request_type
+        self.params = params
         self.time_path = time_path
         self.time_url = '%s/%s' % (str(self.base_url).rstrip('/'),
                                    str(self.time_path).lstrip('/'))
         self.url = '%s/%s' % (str(self.base_url).rstrip('/'),
                               str(self.url_path).lstrip('/'))
+        if self.params is not None:
+            self.url += '?%s' % self.params
 
     # Compute the request signature
     # Refer to http://www.ovh.com/fr/g934.premiers-pas-avec-l-api 
@@ -62,8 +66,12 @@ class OVHAuth(AuthBase):
             timestamp = self.now()
 
         sha1 = hashlib.sha1()
-        sha1.update('+'.join([self.app_secret, self.consumer_key,
-                              str(self.request_type).upper(), self.url, "", timestamp]))
+        sha1.update('+'.join([self.app_secret,
+                              self.consumer_key,
+                              str(self.request_type).upper(),
+                              self.url,
+                              "",
+                              timestamp]))
         return '$1$'+sha1.hexdigest()
 
     # time is needed to sign the requests
@@ -137,7 +145,14 @@ class Resource(object):
         # method: get/post/put/delete
         method = str(type).lower()
 
-        logging.debug("%s %s" % (method, url))
+        if 'params' in kwargs:
+            params = urllib.urlencode(kwargs['params'])
+
+        full_url = url
+        if params is not None:
+            full_url += '?%s' % (params)
+
+        logging.debug("%s %s" % (method, full_url))
         logging.debug("path is %s" % self.path)
 
         # call requests
@@ -149,6 +164,7 @@ class Resource(object):
                                                app_secret=self.api.app_secret,
                                                base_url=self.api.base_url,
                                                request_type=method
+                                               params = params
                                            ),
                                            **kwargs)
 
