@@ -72,7 +72,7 @@ sudo python setup.py install
 ```
 
 ### Configuration
-Starting from version *0.2.0* OCAPy is abble to read authentication parameters from an INI configuration file. This configuration file is stored in the user's home directory.
+Starting from version **0.2.0** OCAPy is abble to read authentication parameters from an INI configuration file. This configuration file is stored in the user's home directory.
 The configuration is compounded of a main configuration part and one or several profiles part. 
 
 **Full exemple:**
@@ -98,7 +98,7 @@ base_url = https://api.ovh.com/1.0
 ```
 
 To use the authentication parameters from the configuration file, just set the option ```ocapy_profile='profile name'``` when instantiating the class.
-You may use the profile called 'default' to load the profile specified in '[ocapy]' section.
+You may use the profile called 'default' to load the profile specified in **```[ocapy]```** section.
 
 With the above configuration the 2 following lines are strictly the same:
 
