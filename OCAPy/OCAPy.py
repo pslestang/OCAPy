@@ -53,6 +53,11 @@ class OVHAuth(AuthBase):
         self.params = params
         self.time_path = time_path
         self.time_url = '%s/%s' % (str(self.base_url).rstrip('/'),
+                                   str(self.time_path).lstrip('/'))
+        self.url = '%s/%s' % (str(self.base_url).rstrip('/'),
+                              str(self.url_path).lstrip('/'))
+        if self.params is not None:
+            self.url += '?%s' % self.params
 
     # Compute the request signature
     # Refer to http://www.ovh.com/fr/g934.premiers-pas-avec-l-api 
