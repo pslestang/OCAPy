@@ -143,8 +143,8 @@ consumer_key = UVlpLWVZwVk9XOWtSRTE0VVhwb2VHTlJ
 base_url = https://api.ovh.com/1.0
 ```
 
-To use the authentication parameters from the configuration file, just set the option **```ocapy_profile='profile name'```** when instantiating the OCAPy class.
-You may use the profile called 'default' to load the profile specified in **```[ocapy]```** section.
+To use the authentication parameters from the configuration file, just set the option ```ocapy_profile='profile name'``` when instantiating the OCAPy class.
+You may use the profile called 'default' to load the profile specified in ```[ocapy]``` section.
 
 With the above configuration the following lines are strictly the same:
 
