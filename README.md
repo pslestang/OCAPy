@@ -25,9 +25,12 @@ OCAPy is a python client implementing [OVH restful API](https://api.ovh.com/cons
     # And play with the API
     # A GET request: GET https://api.ovh.com/1.0/me
     request=ocapy.me.get()
-
+    
     # print my city
     print request['city']
+
+    # A GET request with parameters; GET https://api.ovh.com/1.0/ips?type=dedicated
+    print ocapy.ip.get(params={'type': 'dedicated'})
 
     # Want to get a specific ressource?
     # GET https://api.ovh.com/1.0/ip/213.186.33.99%2F32
