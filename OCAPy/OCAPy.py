@@ -209,7 +209,11 @@ class OCAPy(API):
                 profile = config.profile(ocapy_profile)
                 
             if profile is None:
-                raise OCAPyException('OCAPy profile "%s" is unknown' % ocapy_profile)
+                if ocapy_profile != 'default':
+                    raise OCAPyException('OCAPy profile "%s" is unknown' % ocapy_profile)
+                else:
+                    raise OCAPyException('OCAPy default "%s" profile does not '
+                                         'exist' % config.ocapy.profile )
             else:
                 kwargs['base_url'] = profile.base_url
                 kwargs['app_key'] = profile.app_key
