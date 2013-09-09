@@ -97,7 +97,7 @@ consumer_key = UVlpLWVZwVk9XOWtSRTE0VVhwb2VHTlJ
 base_url = https://api.ovh.com/1.0
 ```
 
-To use the authentication parameters from the configuration file, just set the option ```ocapy_profile='profile name'``` when instantiating the class.
+To use the authentication parameters from the configuration file, just set the option ```ocapy_profile='profile name'``` when instantiating the OCAPy class.
 You may use the profile called 'default' to load the profile specified in **```[ocapy]```** section.
 
 With the above configuration the 2 following lines are strictly the same:
@@ -112,6 +112,28 @@ ocapy = OCAPy(ocapy_profile='default')
 
 ```
 
+### ocapy program
+Starting from version **0.2.0** OCAPy is shiped with a program called ```ocapy``` which is for the moment a helpfull program that manage configuration file.
+When using it you are able to add, delete, detail an valid a profile authentication.
+
+The 'valid' function tests that a request on https://api.ovh.com/1.0/me is working with an authentication profile 
+
+During 'add' process, the same request is done, if the test fails, the profile is not added.
+
+Here the help message:
+
+```
+usage: ocapy [-h] [-c] [-s] [-p PROFILE] [-n]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c, --config          Configure OCAPy and manage profiles authentication
+  -s, --shell           Start an interactive shell
+  -p PROFILE, --profile PROFILE
+                        Authentication profile to use
+  -n, --no-color        Disable color, default is to enable unless colorama
+                        library is missing
+```
 
 ### API Responses
 - The API responses are **decoded JSON string**
