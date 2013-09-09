@@ -46,7 +46,6 @@ OCAPy is a python client implementing [OVH restful API](https://api.ovh.com/cons
     
 ```
 
-## What you need to know
 ### Basics
 1. OVH API is available [here](https://api.ovh.com/console/)
 2. To get your credentials follow [this tutorial](http://www.ovh.com/fr/g934.premiers-pas-avec-l-api)
@@ -71,6 +70,44 @@ unzip master.zip
 cd OCAPy-master/
 sudo python setup.py install
 ```
+
+### Configuration
+Starting from version 0.2.0 OCAPy is abble to read authentication parameters from an INI configuration file. This configuration file is stored in the user's home directory.
+The configuration is compounded of a main configuration part and one or several profiles part. Below an exemple:
+
+```
+[ocapy]
+base_url = https://api.ovh.com/1.0/
+profile = full
+
+[profile-full]
+name = full
+app_key = 1234AbCD5eFGh6ijk
+app_secret = QQkc0c1hqVnRWbmcwY3JtdDFDeFlkYkd
+consumer_key = V2ROTnkwTzllMVJaZU9odDMxQzhxcGFk
+base_url = https://api.ovh.com/1.0
+
+[profile-domains]
+name = domains
+app_key = 1234AbCD5eFGh6ijk
+app_secret = UemxsTVZKYVpVOW9kRE14UXpoeGNRmsK
+consumer_key = UVlpLWVZwVk9XOWtSRTE0VVhwb2VHTlJ
+base_url = https://api.ovh.com/1.0
+```
+
+To use the authentication parameters from a the configuration file, just set the option ocapy_profile='profile name' when instantiating the class. You may use the profile called 'default' to load the profile specified in '[ocapy]' section.
+With the above configuration the 2 following lines are strictly the same:
+
+```python
+from OCAPy import OCAPy
+
+# use the profile called full (profile-full)
+ocapy = OCAPy(ocapy_profile='full')
+# use the default profile (value set to full) 
+ocapy = OCAPy(ocapy_profile='default')
+
+```
+
 
 ### API Responses
 - The API responses are **decoded JSON string**
