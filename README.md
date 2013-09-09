@@ -72,8 +72,8 @@ sudo python setup.py install
 ```
 
 ### Configuration
-Starting from version **0.2.0** OCAPy is abble to read authentication parameters from an INI configuration file. This configuration file is stored in the user's home directory.
-The configuration is compounded of a main configuration part and one or several profiles part. 
+Starting from version **0.2.0** OCAPy is abble to read authentication parameters from an INI configuration file. This configuration file is stored in the user's home directory and called **.ocapyrc**
+The configuration is compounded of a main configuration part and one or several profiles part.
 
 **Full exemple:**
 
