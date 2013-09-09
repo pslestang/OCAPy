@@ -46,53 +46,62 @@ if args.config:
     load_profile = None
     add_profile = False
     
-    if not len(config.profiles):
-        logger.info("No profile found, adding one...")
-        add_profile = True
-    else:
-        answer = UserInput(question='Do you want to add, delete, list or test a profile?',
-                           choices=['add', 'delete', 'list', 'test'], default='list').process()
-        names = [ profile.name for profile in config.profiles ]
-        if answer == 'list':
-            answer = UserInput(question='Choose the profile to detail:', choices=names,
-                           default=names[0]).process()
-
-            profile = config.profile(answer)
-            if profile is not None:
-                logger.info(profile)
-            else:
-                logger.info('Profile not found!')
-        elif answer == 'add':
+    while ( True ):
+        if not len(config.profiles):
+            logger.info("No profile found, adding one...")
             add_profile = True
-        elif answer == 'test':
-            answer = UserInput(question='Choose the profile to load:', choices=names,
-                           default=names[0]).process()
-            profile = config.profile(answer)
-            if profile.is_valid():
-                logger.info('Your profile %s is valid' % profile.name)
-            else:
-                logger.error('Your profile %s is not valid' % profile.name)
-        elif answer == 'delete':
-            answer = UserInput(question='Choose the profile to delete:',
-                               choices=names, default=names[0]).process()
-            config.delete_profile(answer)
-            config.save()
-            logger.info('Profile %s has been deleted' % answer)
         else:
-            logger.warning('Answer "%s" is not implemented' % answer)
+            answer = UserInput(question='Do you want to add, delete, detail or test a profile?',
+                               choices=['add', 'delete', 'detail', 'test'],
+                               default='detail').process()
+            names = [ profile.name for profile in config.profiles ]
+            if answer == 'detail':
+                if len(names) > 1:
+                    answer = UserInput(question='Choose the profile to detail:', choices=names,
+                                   default=names[0]).process()
+                else:
+                    answer = names[0]
+
+                profile = config.profile(answer)
+                if profile is not None:
+                    logger.info(profile)
+                else:
+                    logger.info('Profile not found!')
+            elif answer == 'add':
+                add_profile = True
+            elif answer == 'test':
+                if len(names) > 1:
+                    answer = UserInput(question='Choose the profile to test:', choices=names,
+                                   default=names[0]).process()
+                else:
+                    answer = names[0]
+
+                profile = config.profile(answer)
+                if profile.is_valid():
+                    logger.info('Profile "%s" is valid' % profile.name)
+                else:
+                    logger.error('Pofile "%s" is not valid' % profile.name)
+            elif answer == 'delete':
+                answer = UserInput(question='Choose the profile to delete:',
+                                   choices=names, default=names[0]).process()
+                config.delete_profile(answer)
+                config.save()
+                logger.info('Profile "%s" has been deleted' % answer)
+            else:
+                logger.warning('"%s" command is not implemented' % answer)
 
 
-    if add_profile:
-        app_key = UserInput(question='Enter your application key').process()
-        app_secret = UserInput(question='Enter your application secret').process()
-        consumer_key = UserInput(question='Enter your consumer key').process()
-        base_url = UserInput(question='Enter the API base URL').process()
-        name = UserInput(question='Give a name to your profile').process()
-        config.add_profile(app_key=app_key, app_secret=app_secret,
-                           consumer_key=consumer_key, name=name, base_url=base_url)
-        config.save()
-        logger.info('Configuration saved')
-        
+        if add_profile:
+            app_key = UserInput(question='Enter your application key').process()
+            app_secret = UserInput(question='Enter your application secret').process()
+            consumer_key = UserInput(question='Enter your consumer key').process()
+            base_url = UserInput(question='Enter the API base URL').process()
+            name = UserInput(question='Give a name to your profile').process()
+            config.add_profile(app_key=app_key, app_secret=app_secret,
+                               consumer_key=consumer_key, name=name, base_url=base_url)
+            config.save()
+            logger.info('Configuration saved')
+
 elif args.shell:
     logger.info('Loading default profile...')
     config = Config()
