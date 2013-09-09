@@ -37,7 +37,7 @@ parser.add_argument('-n', '--no-color', action='store_true', help='Disable'
                     ' color, default is to enable unless colorama library is'
                     ' missing ')
 args=parser.parse_args()
-color(status=not args.no_color)
+color(enable=not args.no_color)
 
 if args.config:
     logger.info("Loading configuration...")
@@ -107,7 +107,7 @@ elif args.shell:
     config = Config()
     ocapy = OCAPy(ocapy_profile='default')
     # Start the shell...
-    print ocapy.me.get()
+    # print ocapy.me.get()
 else:
     parser.print_help()
 

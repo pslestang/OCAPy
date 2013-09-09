@@ -24,9 +24,9 @@ try:
 except ImportError:
     pass
 
-def color(status=False):
+def color(enable=False):
     global COLORS
-    COLORS = status
+    COLORS = enable
 
 class UserInput(object):
     """"""
