@@ -43,16 +43,17 @@ if args.config:
     logger.info("Loading configuration...")
     config = Config()
 
-    load_profile = None
-    add_profile = False
-    
+   
     while ( True ):
+        add_profile = False
+
         if not len(config.profiles):
             logger.info("No profile found, adding one...")
             add_profile = True
         else:
-            answer = UserInput(question='Do you want to add, delete, detail or test a profile?',
-                               choices=['add', 'delete', 'detail', 'test'],
+            answer = UserInput(question='Do you want to add, delete, detail or'
+                               ' validate a profile?',
+                               choices=['add', 'delete', 'detail', 'valid'],
                                default='detail').process()
             names = [ profile.name for profile in config.profiles ]
             if answer == 'detail':
@@ -69,9 +70,9 @@ if args.config:
                     logger.info('Profile not found!')
             elif answer == 'add':
                 add_profile = True
-            elif answer == 'test':
+            elif answer == 'valid':
                 if len(names) > 1:
-                    answer = UserInput(question='Choose the profile to test:', choices=names,
+                    answer = UserInput(question='Choose the profile to valid:', choices=names,
                                    default=names[0]).process()
                 else:
                     answer = names[0]
