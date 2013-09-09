@@ -158,7 +158,9 @@ ocapy = OCAPy(ocapy_profile='default')
 
 ### ocapy program
 Starting from version **0.2.0** OCAPy is shipped with a program called ```ocapy``` which is for the moment a helper program that manages the configuration file (add, remove, detail, valid a profile)
+
 The 'valid' utility tests that a request on https://api.ovh.com/1.0/me is working with a selected authentication profile 
+
 During 'add' process the same request is done. If the test fails the profile is not added.
 
 Here the help message:
