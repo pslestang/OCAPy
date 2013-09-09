@@ -163,7 +163,7 @@ class Resource(object):
                                                app_key=self.api.app_key,
                                                app_secret=self.api.app_secret,
                                                base_url=self.api.base_url,
-                                               request_type=method
+                                               request_type=method,
                                                params = params
                                            ),
                                            **kwargs)
