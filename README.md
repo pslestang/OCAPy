@@ -11,42 +11,34 @@ OCAPy is a python client implementing [OVH restful API](https://api.ovh.com/cons
 ## Usage overview
 
 ```python
-    # Import the main class
-    from OCAPy import OCAPy
-    
-    # Instantiate OCAPy class
-    ocapy=OCAPy(
-        base_url='https://api.ovh.com/1.0/',
-        app_key='YOUR APPLICATION KEY',
-        app_secret='YOUR APPLICATION SECRET',
-        consumer_key='YOUR CONSUMER KEY'
-    )
-
-    # And play with the API
-    # A GET request: GET https://api.ovh.com/1.0/me
-    request=ocapy.me.get()
-    
-    # print my city
-    print request['city']
-
-    # A GET request with parameters; GET https://api.ovh.com/1.0/ips?type=dedicated
-    print ocapy.ip.get(params={'type': 'dedicated'})
-
-    # Want to get a specific ressource?
-    # GET https://api.ovh.com/1.0/ip/213.186.33.99%2F32
-    print ocapy.ip('213.186.33.99/32').get()
-    
-    # OK but I also want to play with POST and PUT!
-    # POST https://api.ovh.com/1.0/me/ovhAccount/FR/creditOrder
-    print ocapy.me.ovhAccount('FR').creditOrder.post(data={'amount':'1000'})
-
-    # PUT https://api.ovh.com/1.0/xdsl/xdsl-xxxx-1
-    print ocapy.xdsl('xdsl-xxxx-1').put(data={'description':'My XDSL description'})
-    
-    # And what's about DELETE?
-    # DELETE https://api.ovh.com/1.0/sms/user/ocapy
-    print ocapy.sms('sms-xxxx-1').user('ocapy').delete()
-    
+# Import the main class
+>>> from OCAPy import OCAPy
+>>> ocapy = OCAPy(profile='default')
+>>> # And play with the API
+... # A GET request: GET https://api.ovh.com/1.0/me
+... request = ocapy.me.get()
+>>> print request['city']
+PLEUMELEUC
+>>> # A GET request with parameters; GET https://api.ovh.com/1.0/ips?type=dedicated
+... print ocapy.ip.get(params={'type': 'dedicated'})
+[u'xx.xxx.xx.xxx/32', u'yy.yy.yyy.yyy/32']
+>>> # Want to get a specific ressource?
+... # GET https://api.ovh.com/1.0/ip/xx.xxx.xx.xxx%2F32
+... print ocapy.ip('xx.xxx.xx.xxx/32').get()
+{u'ip': u'xx.xxx.xx.xxx/32', u'type': u'dedicated'}
+>>> # OK but I also want to play with POST and PUT!
+... # POST https://api.ovh.com/1.0/me/ovhAccount/FR/creditOrder
+... print ocapy.me.ovhAccount('FR').creditOrder.post(data={'amount':'1000'})
+{u'totalWithTaxes': 10, u'currency': u'EUR', u'link': u'https://www.ovh.com/cgi-bin/order/displayOrder.cgi?orderId=12345678&orderPassword=Pl0p', u'expirationDate': u'2013-09-25T23:
+29:59+02:00', u'totalWithoutTaxes': 10, u'password': u'Pl0p', u'id': 12345678}
+>>> # PUT https://api.ovh.com/1.0/xdsl/xdsl-xxxx-1
+... print ocapy.xdsl('xdsl-xxxx-1').put(data={'description':'My XDSL description'})
+None
+>>> # And what's about DELETE?
+... # DELETE https://api.ovh.com/1.0/sms/user/ocapy
+... print ocapy.sms('sms-xxxx-1').user('ocapy').delete()
+None
+>>>
 ```
 
 ### Basics
@@ -80,42 +72,42 @@ sudo python setup.py install
 - In case of **HTTP error** which is also an API error, an exception is raised
 
 ```python
-    >>> from OCAPy import OCAPy
-    >>> ocapy=OCAPy(profile='default')
-    >>> me=ocapy.me.get()
-    >>> # Ex: Adding ocapy user return a NULL response so None in python
-    ... print ocapy.sms('sms-lp2040-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
-    None
-    >>>
+>>> from OCAPy import OCAPy
+>>> ocapy=OCAPy(profile='default')
+>>> me=ocapy.me.get()
+>>> # Ex: Adding ocapy user return a NULL response so None in python
+... print ocapy.sms('sms-xxxx-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
+None
+>>>
 ```
 
 ```python
-    >>> # Ex: Adding ocapy user one more time raise an exception:"
-    ... try:
-    ...     print ocapy.sms('sms-lp2040-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
-    ... except Exception as e:
-    ...     print "Exception raise: %s" %e
-    ...
-    Exception raise: POST https://api.ovh.com/1.0/sms/sms-lp2040-1/users [409]: This login exists already for that account
-    >>>
+>>> # Ex: Adding ocapy user one more time raise an exception:"
+... try:
+...     print ocapy.sms('sms-xxxx-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
+... except Exception as e:
+...     print "Exception raise: %s" %e
+...
+Exception raise: POST https://api.ovh.com/1.0/sms/sms-xxxx-1/users [409]: This login exists already for that account
+>>>
 ```
 
 ```python
-    >>> # Ex: Deleting ocapy user return a NULL response, so None in python
-    >>> print ocapy.sms('sms-lp2040-1').users('ocapy').delete()
-    None
-    >>>
+>>> # Ex: Deleting ocapy user return a NULL response, so None in python
+>>> print ocapy.sms('sms-xxxx-1').users('ocapy').delete()
+None
+>>>
 ```
 
 ```python
-    >>> # Calling an invalid resource, raise an exception:"
-    ... try:
-    ...     ocapy.me.invalidresource.get()
-    ... except Exception as e:
-    ...     print "Exception raised %s" % e
-    ...
-    Exception raised GET https://api.ovh.com/1.0/me/invalidresource [404]: Got an invalid (or empty) URL
-    >>>
+>>> # Calling an invalid resource, raise an exception:"
+... try:
+...     ocapy.me.invalidresource.get()
+... except Exception as e:
+...     print "Exception raised %s" % e
+...
+Exception raised GET https://api.ovh.com/1.0/me/invalidresource [404]: Got an invalid (or empty) URL
+>>>
 ```
 
 ### Configuration
