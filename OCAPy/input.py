@@ -64,11 +64,11 @@ class UserInput(object):
 
         value = raw_input('%s' % question)
 
-        while ( len(self.choices) and value not in self.choices ):
+        while ( self.choices and value not in self.choices ):
             if value == '':
                 value = self.default
 
-            if len(self.choices) and value not in self.choices:
+            if self.choices and value not in self.choices:
                 if COLORS:
                     print "%s>>>>> Answer (%s%s%s) is not valid, allowed values: %s" % (Fore.RED, Style.BRIGHT, value, Style.NORMAL, self.choices)
                 else:

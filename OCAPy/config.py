@@ -124,7 +124,7 @@ class Config(object):
 
     def save(self):
         if self.ocapy.profile == '':
-            if len(self.profiles) > 0:
+            if self.profiles:
                 self.ocapy.profile = self.profiles[0].name
         self.ocapy.save()
 
