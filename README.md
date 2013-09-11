@@ -14,29 +14,42 @@ OCAPy is a python client implementing [OVH restful API](https://api.ovh.com/cons
 # Import the main class
 >>> from OCAPy import OCAPy
 >>> ocapy = OCAPy(profile='default')
+
+
 >>> # And play with the API
 ... # A GET request: GET https://api.ovh.com/1.0/me
 ... request = ocapy.me.get()
 >>> print request['city']
 PLEUMELEUC
+
+
 >>> # A GET request with parameters; GET https://api.ovh.com/1.0/ips?type=dedicated
 ... print ocapy.ip.get(params={'type': 'dedicated'})
 [u'xx.xxx.xx.xxx/32', u'yy.yy.yyy.yyy/32']
+
+
 >>> # Want to get a specific ressource?
 ... # GET https://api.ovh.com/1.0/ip/xx.xxx.xx.xxx%2F32
 ... print ocapy.ip('xx.xxx.xx.xxx/32').get()
 {u'ip': u'xx.xxx.xx.xxx/32', u'type': u'dedicated'}
+
+
 >>> # OK but I also want to play with POST and PUT!
 ... # POST https://api.ovh.com/1.0/me/ovhAccount/FR/creditOrder
 ... print ocapy.me.ovhAccount('FR').creditOrder.post(data={'amount':'1000'})
 {u'totalWithTaxes': 10, u'currency': u'EUR', u'link': u'https://www.ovh.com/cgi-bin/order/displayOrder.cgi?orderId=12345678&orderPassword=Pl0p', u'expirationDate': u'2013-09-25T23:
 29:59+02:00', u'totalWithoutTaxes': 10, u'password': u'Pl0p', u'id': 12345678}
+
+
 >>> # PUT https://api.ovh.com/1.0/xdsl/xdsl-xxxx-1
 ... print ocapy.xdsl('xdsl-xxxx-1').put(data={'description':'My XDSL description'})
 None
+
+
 >>> # And what's about DELETE?
-... # DELETE https://api.ovh.com/1.0/sms/user/ocapy
+... # DELETE https://api.ovh.com/1.0/sms/sms-xxxx-1/user/ocapy
 ... print ocapy.sms('sms-xxxx-1').user('ocapy').delete()
+
 None
 >>>
 ```
