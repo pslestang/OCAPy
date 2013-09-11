@@ -3,7 +3,7 @@
 
 __author__ = 'Pierre-Samuel Le Stang'
 __email__ = 'ps@lestang.fr'
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 from OCAPy import OCAPy
 from schema import Schemas, Schema
