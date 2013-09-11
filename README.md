@@ -13,7 +13,18 @@ OCAPy is a python client implementing [OVH restful API](https://api.ovh.com/cons
 ```python
 # Import the main class
 >>> from OCAPy import OCAPy
->>> ocapy = OCAPy(profile='default')
+>>> # basic instantiation
+... # Instantiate OCAPy class
+... ocapy = OCAPy(
+...     base_url='https://api.ovh.com/1.0/',
+...     app_key='YOUR APPLICATION KEY',
+...     app_secret='YOUR APPLICATION SECRET',
+...     consumer_key='YOUR CONSUMER KEY'
+... )
+
+>>> # If you wrote user's configuration file (see configuration part)
+... ocapy = OCAPy(profile='default')
+>>> 
 
 
 >>> # And play with the API
