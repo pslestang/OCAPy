@@ -52,6 +52,12 @@ class Schema(object):
         self.format = format
         self.content = None
 
+    def name(self):
+        name = self.path
+        name = name.lstrip('/')
+        name = name.replace('/', '.')
+        return name
+
     def load(self):
         url = '%s/%s' % (self.base_url.rstrip('/'), self.path.lstrip('/'))
         request = requests.get(url)
