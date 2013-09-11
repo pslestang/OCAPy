@@ -80,42 +80,43 @@ sudo python setup.py install
 - In case of **HTTP error** which is also an API error, an exception is raised
 
 ```python
-# A successfull request return a decoded JSON string
-me=ocapy.me.get()
-print "My name is: %s" % me['name']
-```
-    My name is: Le Stang
-
-```python
-# Ex: Adding ocapy user return a NULL response so None in python
-print ocapy.sms('sms-xxxx-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
-```    
+    >>> from OCAPy import OCAPy
+    >>> ocapy=OCAPy(profile='default')
+    >>> me=ocapy.me.get()
+    >>> # Ex: Adding ocapy user return a NULL response so None in python
+    ... print ocapy.sms('sms-lp2040-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
     None
-
-```python    
-# Ex: Adding ocapy user one more time raise an exception:"
-try:
-    ocapy.sms('sms-xxxx-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
-except Exception as e:
-    print "Exception raised: %s" % e
+    >>>
 ```
-    Exception raised: POST https://api.ovh.com/1.0/sms/sms-xxxx-1/users [409]: This login exists already for that account
 
 ```python
-# Ex: Deleting ocapy user return a NULL response, so None in python"
-print ocapy.sms('sms-xxxx-1').users('ocapy').delete()
+    >>> # Ex: Adding ocapy user one more time raise an exception:"
+    ... try:
+    ...     print ocapy.sms('sms-lp2040-1').users.post(data={'login':'ocapy', 'password':'plopplop'})
+    ... except Exception as e:
+    ...     print "Exception raise: %s" %e
+    ...
+    Exception raise: POST https://api.ovh.com/1.0/sms/sms-lp2040-1/users [409]: This login exists already for that account
+    >>>
 ```
+
+```python
+    >>> # Ex: Deleting ocapy user return a NULL response, so None in python
+    >>> print ocapy.sms('sms-lp2040-1').users('ocapy').delete()
     None
+    >>>
+```
 
 ```python
-# Calling an invalid resource, raise an exception:"
-try:
-    ocapy.me.invalidresource.get()
-except Exception as e:
-    print "Exception raised %s" % e
-
+    >>> # Calling an invalid resource, raise an exception:"
+    ... try:
+    ...     ocapy.me.invalidresource.get()
+    ... except Exception as e:
+    ...     print "Exception raised %s" % e
+    ...
+    Exception raised GET https://api.ovh.com/1.0/me/invalidresource [404]: Got an invalid (or empty) URL
+    >>>
 ```
-     Exception raised GET https://api.ovh.com/1.0/me/invalidresource [404]: Got an invalid (or empty) URL
 
 ### Configuration
 Starting from version **0.2.0** OCAPy is able to read authentication parameters from an INI configuration file. This configuration file is stored in the user's home directory and called **.ocapyrc**
@@ -143,16 +144,16 @@ consumer_key = UVlpLWVZwVk9XOWtSRTE0VVhwb2VHTlJ
 base_url = https://api.ovh.com/1.0
 ```
 
-To use the authentication parameters from the configuration file, just set the option ```ocapy_profile='profile name'``` when instantiating the OCAPy class.
+To use the authentication parameters from the configuration file, just set the option ```profile='profile name'``` when instantiating the OCAPy class.
 You may use the profile called 'default' to load the profile specified in ```[ocapy]``` section.
 
 With the above configuration the following lines are strictly the same:
 
 ```python
 # use the profile called full (profile-full)
-ocapy = OCAPy(ocapy_profile='full')
+ocapy = OCAPy(profile='full')
 # use the default profile (value set to full) 
-ocapy = OCAPy(ocapy_profile='default')
+ocapy = OCAPy(profile='default')
 
 ```
 

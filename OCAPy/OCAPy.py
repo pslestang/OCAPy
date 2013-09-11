@@ -217,17 +217,17 @@ class API(object):
 
 class OCAPy(API):
     """"""
-    def __init__(self, ocapy_profile=None, **kwargs):
-        if ocapy_profile is not None:
+    def __init__(self, profile=None, **kwargs):
+        if profile is not None:
             config=Config()
-            if ocapy_profile == 'default':
+            if profile == 'default':
                 profile = config.profile(config.ocapy.profile)
             else:
-                profile = config.profile(ocapy_profile)
+                profile = config.profile(profile)
                 
             if profile is None:
-                if ocapy_profile != 'default':
-                    raise OCAPyException('OCAPy profile "%s" is unknown' % ocapy_profile)
+                if profile != 'default':
+                    raise OCAPyException('OCAPy profile "%s" is unknown' % profile)
                 else:
                     raise OCAPyException('OCAPy default "%s" profile does not '
                                          'exist' % config.ocapy.profile )

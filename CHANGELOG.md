@@ -1,3 +1,7 @@
+###v0.3.0###
+*Release date: 2013-09-09*
+* [Deprecated] OCAPy class: **ocapy_profile** argument was abandonned in favor of **profile** argument
+
 ###v0.2.0###
 *Release date: 2013-09-09*
 
