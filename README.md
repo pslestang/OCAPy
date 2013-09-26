@@ -179,6 +179,5 @@ optional arguments:
 ```
 
 
-
 ### License
 OCAPy is licensed under the terms of the General Public License v3
