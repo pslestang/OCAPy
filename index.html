@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ocapy by pslestang</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Ocapy</h1>
+        <p class="header">OCAPy - OVH Client APy</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/pslestang/OCAPy/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/pslestang/OCAPy/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/pslestang/OCAPy">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/pslestang">pslestang</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="ocapy" class="anchor" href="#ocapy"><span class="octicon octicon-link"></span></a>OCAPy</h1>
+
+<p>OVH Client Api (in Python)</p>
+
+<p>OCAPy is a python client implementing <a href="https://api.ovh.com/console/">OVH restful API</a> consumption</p>
+
+<h2>
+<a name="disclaimer" class="anchor" href="#disclaimer"><span class="octicon octicon-link"></span></a>Disclaimer</h2>
+
+<p><strong>OVH is in no way involved in the development of this library</strong>, in case of bug please use the issues tracker provided by Github</p>
+
+<h2>
+<a name="usage-overview" class="anchor" href="#usage-overview"><span class="octicon octicon-link"></span></a>Usage overview</h2>
+
+<div class="highlight highlight-python"><pre>    <span class="c"># Import the main class</span>
+    <span class="kn">from</span> <span class="nn">OCAPy</span> <span class="kn">import</span> <span class="n">OCAPy</span>
+
+    <span class="c"># Instantiate OCAPy class</span>
+    <span class="n">ocapy</span><span class="o">=</span><span class="n">OCAPy</span><span class="p">(</span>
+        <span class="n">base_url</span><span class="o">=</span><span class="s">'https://api.ovh.com/1.0/'</span><span class="p">,</span>
+        <span class="n">app_key</span><span class="o">=</span><span class="s">'YOUR APPLICATION KEY'</span><span class="p">,</span>
+        <span class="n">app_secret</span><span class="o">=</span><span class="s">'YOUR APPLICATION SECRET'</span><span class="p">,</span>
+        <span class="n">consumer_key</span><span class="o">=</span><span class="s">'YOUR CONSUMER KEY'</span>
+    <span class="p">)</span>
+
+    <span class="c"># And play with the API</span>
+    <span class="c"># A GET request: GET https://api.ovh.com/1.0/me</span>
+    <span class="n">request</span><span class="o">=</span><span class="n">ocapy</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="c"># print my city</span>
+    <span class="k">print</span> <span class="n">request</span><span class="p">[</span><span class="s">'city'</span><span class="p">]</span>
+
+    <span class="c"># A GET request with parameters; GET https://api.ovh.com/1.0/ips?type=dedicated</span>
+    <span class="k">print</span> <span class="n">ocapy</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s">'type'</span><span class="p">:</span> <span class="s">'dedicated'</span><span class="p">})</span>
+
+    <span class="c"># Want to get a specific ressource?</span>
+    <span class="c"># GET https://api.ovh.com/1.0/ip/213.186.33.99%2F32</span>
+    <span class="k">print</span> <span class="n">ocapy</span><span class="o">.</span><span class="n">ip</span><span class="p">(</span><span class="s">'213.186.33.99/32'</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="c"># OK but I also want to play with POST and PUT!</span>
+    <span class="c"># POST https://api.ovh.com/1.0/me/ovhAccount/FR/creditOrder</span>
+    <span class="k">print</span> <span class="n">ocapy</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">ovhAccount</span><span class="p">(</span><span class="s">'FR'</span><span class="p">)</span><span class="o">.</span><span class="n">creditOrder</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">'amount'</span><span class="p">:</span><span class="s">'1000'</span><span class="p">})</span>
+
+    <span class="c"># PUT https://api.ovh.com/1.0/xdsl/xdsl-xxxx-1</span>
+    <span class="k">print</span> <span class="n">ocapy</span><span class="o">.</span><span class="n">xdsl</span><span class="p">(</span><span class="s">'xdsl-xxxx-1'</span><span class="p">)</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">'description'</span><span class="p">:</span><span class="s">'My XDSL description'</span><span class="p">})</span>
+
+    <span class="c"># And what's about DELETE?</span>
+    <span class="c"># DELETE https://api.ovh.com/1.0/sms/user/ocapy</span>
+    <span class="k">print</span> <span class="n">ocapy</span><span class="o">.</span><span class="n">sms</span><span class="p">(</span><span class="s">'sms-xxxx-1'</span><span class="p">)</span><span class="o">.</span><span class="n">user</span><span class="p">(</span><span class="s">'ocapy'</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+</pre></div>
+
+<h3>
+<a name="basics" class="anchor" href="#basics"><span class="octicon octicon-link"></span></a>Basics</h3>
+
+<ol>
+<li>OVH API is available <a href="https://api.ovh.com/console/">here</a>
+</li>
+<li>To get your credentials follow <a href="http://www.ovh.com/fr/g934.premiers-pas-avec-l-api">this tutorial</a>
+</li>
+<li>The code has been tested with python 2.7</li>
+</ol><h3>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h3>
+
+<ul>
+<li>The famous <a href="http://docs.python-requests.org/en/latest/">requests &gt; 1.0.0</a> python library</li>
+<li>To get color in ocapy program install <a href="https://pypi.python.org/pypi/colorama">colorama</a> python library, <strong>this requirement is NOT mandatory</strong>
+</li>
+<li>Other libs should be available within your python installation.</li>
+</ul><h3>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<ol>
+<li>Download the archive</li>
+<li>Unzip and go into the directory</li>
+<li>run <code>python setup.py install</code>
+</li>
+<li>Play with it!</li>
+</ol><p>In other words under Linux:</p>
+
+<div class="highlight highlight-bash"><pre>wget https://github.com/pslestang/OCAPy/archive/master.zip
+unzip master.zip
+<span class="nb">cd </span>OCAPy-master/
+sudo python setup.py install
+</pre></div>
+
+<h3>
+<a name="api-responses" class="anchor" href="#api-responses"><span class="octicon octicon-link"></span></a>API Responses</h3>
+
+<ul>
+<li>The API responses are <strong>decoded JSON string</strong>
+</li>
+<li>In case of <strong>NULL</strong> response, <strong>None</strong> is returned</li>
+<li>In case of <strong>HTTP error</strong> which is also an API error, an exception is raised</li>
+</ul><div class="highlight highlight-python"><pre><span class="c"># A successfull request return a decoded JSON string</span>
+<span class="n">me</span><span class="o">=</span><span class="n">ocapy</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">"My name is: </span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="n">me</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
+</pre></div>
+
+<pre><code>My name is: Le Stang
+</code></pre>
+
+<div class="highlight highlight-python"><pre><span class="c"># Ex: Adding ocapy user return a NULL response so None in python</span>
+<span class="k">print</span> <span class="n">ocapy</span><span class="o">.</span><span class="n">sms</span><span class="p">(</span><span class="s">'sms-xxxx-1'</span><span class="p">)</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">'login'</span><span class="p">:</span><span class="s">'ocapy'</span><span class="p">,</span> <span class="s">'password'</span><span class="p">:</span><span class="s">'plopplop'</span><span class="p">})</span>
+</pre></div>
+
+<pre><code>None
+</code></pre>
+
+<div class="highlight highlight-python"><pre><span class="c"># Ex: Adding ocapy user one more time raise an exception:"</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ocapy</span><span class="o">.</span><span class="n">sms</span><span class="p">(</span><span class="s">'sms-xxxx-1'</span><span class="p">)</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">'login'</span><span class="p">:</span><span class="s">'ocapy'</span><span class="p">,</span> <span class="s">'password'</span><span class="p">:</span><span class="s">'plopplop'</span><span class="p">})</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"Exception raised: </span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="n">e</span>
+</pre></div>
+
+<pre><code>Exception raised: POST https://api.ovh.com/1.0/sms/sms-xxxx-1/users [409]: This login exists already for that account
+</code></pre>
+
+<div class="highlight highlight-python"><pre><span class="c"># Ex: Deleting ocapy user return a NULL response, so None in python"</span>
+<span class="k">print</span> <span class="n">ocapy</span><span class="o">.</span><span class="n">sms</span><span class="p">(</span><span class="s">'sms-xxxx-1'</span><span class="p">)</span><span class="o">.</span><span class="n">users</span><span class="p">(</span><span class="s">'ocapy'</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+
+<pre><code>None
+</code></pre>
+
+<div class="highlight highlight-python"><pre><span class="c"># Calling an invalid resource, raise an exception:"</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ocapy</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">invalidresource</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"Exception raised </span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="n">e</span>
+
+</pre></div>
+
+<pre><code> Exception raised GET https://api.ovh.com/1.0/me/invalidresource [404]: Got an invalid (or empty) URL
+</code></pre>
+
+<h3>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h3>
+
+<p>Starting from version <strong>0.2.0</strong> OCAPy is able to read authentication parameters from an INI configuration file. This configuration file is stored in the user's home directory and called <strong>.ocapyrc</strong>
+The configuration is compounded of a main configuration part and one or several profiles part.</p>
+
+<p><strong>Full exemple:</strong></p>
+
+<div class="highlight highlight-ini"><pre><span class="k">[ocapy]</span>
+<span class="na">base_url</span> <span class="o">=</span> <span class="s">https://api.ovh.com/1.0/</span>
+<span class="na">profile</span> <span class="o">=</span> <span class="s">full</span>
+
+<span class="k">[profile-full]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">full</span>
+<span class="na">app_key</span> <span class="o">=</span> <span class="s">1234AbCD5eFGh6ijk</span>
+<span class="na">app_secret</span> <span class="o">=</span> <span class="s">QQkc0c1hqVnRWbmcwY3JtdDFDeFlkYkd</span>
+<span class="na">consumer_key</span> <span class="o">=</span> <span class="s">V2ROTnkwTzllMVJaZU9odDMxQzhxcGFk</span>
+<span class="na">base_url</span> <span class="o">=</span> <span class="s">https://api.ovh.com/1.0</span>
+
+<span class="k">[profile-domains]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">domains</span>
+<span class="na">app_key</span> <span class="o">=</span> <span class="s">1234AbCD5eFGh6ijk</span>
+<span class="na">app_secret</span> <span class="o">=</span> <span class="s">UemxsTVZKYVpVOW9kRE14UXpoeGNRmsK</span>
+<span class="na">consumer_key</span> <span class="o">=</span> <span class="s">UVlpLWVZwVk9XOWtSRTE0VVhwb2VHTlJ</span>
+<span class="na">base_url</span> <span class="o">=</span> <span class="s">https://api.ovh.com/1.0</span>
+</pre></div>
+
+<p>To use the authentication parameters from the configuration file, just set the option <code>ocapy_profile='profile name'</code> when instantiating the OCAPy class.
+You may use the profile called 'default' to load the profile specified in <code>[ocapy]</code> section.</p>
+
+<p>With the above configuration the following lines are strictly the same:</p>
+
+<div class="highlight highlight-python"><pre><span class="c"># use the profile called full (profile-full)</span>
+<span class="n">ocapy</span> <span class="o">=</span> <span class="n">OCAPy</span><span class="p">(</span><span class="n">ocapy_profile</span><span class="o">=</span><span class="s">'full'</span><span class="p">)</span>
+<span class="c"># use the default profile (value set to full) </span>
+<span class="n">ocapy</span> <span class="o">=</span> <span class="n">OCAPy</span><span class="p">(</span><span class="n">ocapy_profile</span><span class="o">=</span><span class="s">'default'</span><span class="p">)</span>
+
+</pre></div>
+
+<h3>
+<a name="ocapy-program" class="anchor" href="#ocapy-program"><span class="octicon octicon-link"></span></a>ocapy program</h3>
+
+<p>Starting from version <strong>0.2.0</strong> OCAPy is shipped with a program called <code>ocapy</code> which is for the moment a helper program that manages the configuration file (add, remove, detail, valid a profile)</p>
+
+<p>The 'valid' utility tests that a request on <a href="https://api.ovh.com/1.0/me">https://api.ovh.com/1.0/me</a> is working with a selected authentication profile </p>
+
+<p>During 'add' process the same request is done. If the test fails the profile is not added.</p>
+
+<p>Here the help message:</p>
+
+<pre><code>usage: ocapy [-h] [-c] [-s] [-p PROFILE] [-n]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c, --config          Configure OCAPy and manage profiles authentication
+  -s, --shell           Start an interactive shell
+  -p PROFILE, --profile PROFILE
+                        Authentication profile to use
+  -n, --no-color        Disable color, default is to enable unless colorama
+                        library is missing
+</code></pre>
+
+<h3>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h3>
+
+<p>OCAPy is licensed under the terms of the General Public License v3</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
