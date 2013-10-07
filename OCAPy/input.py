@@ -22,11 +22,15 @@ try:
     init(autoreset=True)
     COLORS = True
 except ImportError:
+    COLORS = 0
     pass
 
 def color(enable=False):
     global COLORS
+    if COLORS == 0:
+        return False
     COLORS = enable
+    return COLORS
 
 class UserInput(object):
     """"""
@@ -64,7 +68,7 @@ class UserInput(object):
 
         value = raw_input('%s' % question)
 
-        while ( len(self.choices) and value not in self.choices ):
+        while (len(self.choices) and value not in self.choices):
             if value == '':
                 value = self.default
 
