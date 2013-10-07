@@ -117,7 +117,7 @@ elif args.shell:
     sys.exit(1);
     logger.info('Loading default profile...')
     config = Config()
-    ocapy = OCAPy(ocapy_profile=profile_name)
+    ocapy = OCAPy(ocapy=profile_name)
     # Start the shell...
     # print ocapy.me.get()
 else:
