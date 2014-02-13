@@ -43,7 +43,7 @@ class OVHAuth(AuthBase):
 
     def __init__(self, consumer_key=None, app_secret=None, app_key=None,
                  base_url=None, time_path='auth/time', url_path='/',
-                 request_type='GET', params=None):
+                 request_type='GET', content=None, params=None):
         self.consumer_key = consumer_key
         self.app_key = app_key
         self.app_secret = app_secret
@@ -52,6 +52,7 @@ class OVHAuth(AuthBase):
         self.request_type = request_type
         self.params = params
         self.time_path = time_path
+        self.content = content
         self.time_url = '%s/%s' % (str(self.base_url).rstrip('/'),
                                    str(self.time_path).lstrip('/'))
         self.url = '%s/%s' % (str(self.base_url).rstrip('/'),
@@ -66,11 +67,15 @@ class OVHAuth(AuthBase):
             timestamp = self.now()
 
         sha1 = hashlib.sha1()
+        content = ''
+        if self.content:
+            content = self.content
+
         sha1.update('+'.join([self.app_secret,
                               self.consumer_key,
                               str(self.request_type).upper(),
                               self.url,
-                              "",
+                              content,
                               timestamp]))
         return '$1$'+sha1.hexdigest()
 
@@ -101,6 +106,7 @@ class OVHAuth(AuthBase):
         r.headers['X-Ovh-Application'] = self.app_key
         r.headers['X-Ovh-Signature'] = self.signature(timestamp=timestamp)
         r.headers['X-Ovh-Timestamp'] = str(timestamp)
+        r.headers['Content-Type'] = 'application/json'
 
         return r
 
@@ -156,6 +162,11 @@ class Resource(object):
         logging.debug("%s %s" % (method, full_url ))
         logging.debug("path is %s" % self.path)
 
+        if 'data' in kwargs:
+            kwargs['data'] = json.dumps(kwargs['data'])
+        else:
+            kwargs['data'] = ''
+
         # call requests
         response = getattr(requests, method)(url,
                                            auth=self.api.auth(
@@ -165,7 +176,8 @@ class Resource(object):
                                                app_secret=self.api.app_secret,
                                                base_url=self.api.base_url,
                                                request_type=method,
-                                               params = params
+                                               params = params,
+                                               content = kwargs['data'],
                                            ),
                                            **kwargs)
 
