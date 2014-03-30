@@ -217,9 +217,9 @@ class API(object):
 
 class OCAPy(API):
     """"""
-    def __init__(self, ocapy_profile=None, **kwargs):
+    def __init__(self, ocapy_profile=None, config_file=None, **kwargs):
         if ocapy_profile is not None:
-            config=Config()
+            config=Config(file = config_file)
             if ocapy_profile == 'default':
                 profile = config.profile(config.ocapy.profile)
             else:

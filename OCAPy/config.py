@@ -45,7 +45,7 @@ class Config(object):
 
     """
 
-    def __init__(self):
+    def __init__(self, file=None):
         """is called when :class:`Config` is instantiated
 
     .. note::
@@ -53,7 +53,11 @@ class Config(object):
         Current user's configuration is loaded as soon as :class:`OCAPy.Config` is instantiated
 
         """
-        self.file = '%s/.ocapyrc' % os.path.expanduser('~')
+        if file is None:
+            self.file = '%s/.ocapyrc' % os.path.expanduser('~')
+        else:
+            self.file = file
+
         self.profiles = []
         self.ocapy = None
         self.parser = None
