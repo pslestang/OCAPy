@@ -18,7 +18,7 @@ readme = open('README.md').read()
 
 setup(
     name='OCAPy',
-    version='0.2.1',
+    version='0.3.0',
     description='Python client implementing OVH RESTful API',
     long_description=readme,
     author='Pierre-Samuel Le Stang',
