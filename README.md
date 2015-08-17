@@ -1,3 +1,5 @@
+### WARNING: This project is no more maintened as the python library developed by [OVH team](https://github.com/ovh/python-ovh) implement the features OCAPy was written for. 
+
 OCAPy
 =====
 
